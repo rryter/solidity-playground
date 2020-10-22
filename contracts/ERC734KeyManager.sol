@@ -55,10 +55,7 @@ contract ERC734KeyManager is ERC165, IERC1271, AccessControl {
     modifier onlyManagementKeyOrSelf() {
         if (msg.sender != address(this)) {
             console.log(msg.sender);
-            require(
-                keyHasPurpose(keccak256(abi.encodePacked(msg.sender)), MANAGEMENT_KEY),
-                "sender-must-have-management-key"
-            );
+            require(hasPrivilege(msg.sender, MANAGEMENT_KEY), "sender-must-have-management-key");
         }
         _;
     }
@@ -76,6 +73,8 @@ contract ERC734KeyManager is ERC165, IERC1271, AccessControl {
     }
 
     function execute(bytes calldata _data) external payable {
+        bool isExecutor = hasPrivilege(msg.sender, EXECUTION_KEY) || hasPrivilege(msg.sender, MANAGEMENT_KEY);
+        require(isExecutor, "Only executors are allowed to perform execute");
         address(Account).call{value: msg.value, gas: gasleft()}(_data); //(success, ) =
         emit Executed(msg.value, _data);
     }
@@ -92,7 +91,8 @@ contract ERC734KeyManager is ERC165, IERC1271, AccessControl {
         return (priviliges[_key].purpose, priviliges[_key].keyType, priviliges[_key].keyAddress);
     }
 
-    function keyHasPurpose(bytes32 _key, uint256 _purpose) public view returns (bool) {
+    function hasPrivilege(address _address, uint256 _purpose) public view returns (bool) {
+        bytes32 _key = keccak256(abi.encodePacked(_address));
         // Only purposes that are power of 2 are allowed e.g.:
         // 1, 2, 4, 8, 16, 32, 64 ...
         // Integers that represent multiple purposes are not allowed
@@ -133,10 +133,7 @@ contract ERC734KeyManager is ERC165, IERC1271, AccessControl {
     }
 
     function getAllKeys() public view returns (bytes32[] memory) {
-        require(
-            keyHasPurpose(keccak256(abi.encodePacked(msg.sender)), MANAGEMENT_KEY),
-            "Only managers are allowed to read all the keys"
-        );
+        require(hasPrivilege(msg.sender, MANAGEMENT_KEY), "Only managers are allowed to read all the keys");
         return keys;
     }
 
@@ -149,9 +146,6 @@ contract ERC734KeyManager is ERC165, IERC1271, AccessControl {
      */
     function isValidSignature(bytes32 _hash, bytes memory _signature) public override view returns (bytes4 magicValue) {
         address recoveredAddress = ECDSA.recover(_hash, _signature);
-        return
-            (keyHasPurpose(keccak256(abi.encodePacked(recoveredAddress)), EXECUTION_KEY))
-                ? _INTERFACE_ID_ERC1271
-                : _ERC1271FAILVALUE;
+        return (hasPrivilege(recoveredAddress, EXECUTION_KEY)) ? _INTERFACE_ID_ERC1271 : _ERC1271FAILVALUE;
     }
 }

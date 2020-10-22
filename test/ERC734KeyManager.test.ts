@@ -28,8 +28,8 @@ describe("ERC734 KeyManager", () => {
 
     expect(await account.owner()).toEqual(keyManager.address);
     expect(await keyManager.getAllKeys()).toEqual([key]);
-    expect(await keyManager.keyHasPurpose(key, MANAGEMENT_PURPOSE)).toEqual(true);
-    expect(await keyManager.keyHasPurpose(key, EXECUTE_PURPOSE)).toEqual(false);
+    expect(await keyManager.hasPrivilege(owner.address, MANAGEMENT_PURPOSE)).toEqual(true);
+    expect(await keyManager.hasPrivilege(owner.address, EXECUTE_PURPOSE)).toEqual(false);
   });
 
   it("should transfer funds from the account, to a wallet", async () => {
