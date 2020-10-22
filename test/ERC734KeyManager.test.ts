@@ -15,7 +15,10 @@ describe("ERC734 KeyManager", () => {
 
   async function fixture([wallet]: any[]) {
     const account = (await deployContract(owner, ERC725AccountArtifact, [owner.address])) as Erc725Account;
-    const keyManager = (await deployContract(owner, ERC734KeyManagerArtifact, [owner.address])) as Erc734KeyManager;
+    const keyManager = (await deployContract(owner, ERC734KeyManagerArtifact, [
+      account.address,
+      owner.address,
+    ])) as Erc734KeyManager;
     await account.transferOwnership(keyManager.address);
     return { account, keyManager, wallet };
   }

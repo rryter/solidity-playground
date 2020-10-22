@@ -1,16 +1,29 @@
 // SPDX-License-Identifier: Apache-2.0
 pragma solidity ^0.6.0;
 
-import "./ERC725Account.sol";
 import "@nomiclabs/buidler/console.sol";
+
+// interfaces
+import "./IERC1271.sol";
+import "./IERC725X.sol";
 
 // modules
 import "@openzeppelin/contracts/introspection/ERC165.sol";
 import "@openzeppelin/contracts/access/AccessControl.sol";
 
+// libraries
+import "@openzeppelin/contracts/cryptography/ECDSA.sol";
+import "@openzeppelin/contracts/math/SafeMath.sol";
+
 // NOTE: this contract is not fully tested!
 
 contract ERC734KeyManager is ERC165, IERC1271, AccessControl {
+    using ECDSA for bytes32;
+    using SafeMath for uint256;
+
+    bytes4 internal constant _INTERFACE_ID_ERC1271 = 0x1626ba7e;
+    bytes4 internal constant _ERC1271FAILVALUE = 0xffffffff;
+
     event KeySet(bytes32 indexed key, uint256 indexed purpose, uint256 indexed keyType, address keyAddress);
     event KeyRemoved(bytes32 indexed key, uint256 indexed purpose, uint256 indexed keyType, address keyAddress);
     event Executed(uint256 indexed _value, bytes _data);
@@ -20,9 +33,6 @@ contract ERC734KeyManager is ERC165, IERC1271, AccessControl {
 
     uint256 constant ECDSA_TYPE = 1;
     uint256 constant RSA_TYPE = 2;
-
-    bytes4 internal constant _INTERFACE_ID_ERC1271 = 0x1626ba7e;
-    bytes4 internal constant _ERC1271FAILVALUE = 0xffffffff;
 
     struct Key {
         // A purpose is represented via bitmasks
@@ -35,7 +45,7 @@ contract ERC734KeyManager is ERC165, IERC1271, AccessControl {
         address keyAddress;
     }
 
-    IERC725X public account;
+    IERC725X public Account;
 
     mapping(bytes32 => Key) priviliges;
     bytes32[] public keys;
@@ -53,13 +63,16 @@ contract ERC734KeyManager is ERC165, IERC1271, AccessControl {
         _;
     }
 
-    constructor(address managementAddress) public {
+    constructor(address _account, address _newOwner) public {
         require(!initialized, "contract-already-initialized");
+        Account = IERC725X(_account);
         initialized = true;
-        bytes32 key = keccak256(abi.encodePacked(managementAddress));
+        bytes32 key = keccak256(abi.encodePacked(_newOwner));
 
-        priviliges[key] = Key({keyType: ECDSA_TYPE, purpose: MANAGEMENT_KEY, keyAddress: managementAddress});
+        priviliges[key] = Key({keyType: ECDSA_TYPE, purpose: MANAGEMENT_KEY, keyAddress: _newOwner});
         keys = [key];
+
+        _registerInterface(_INTERFACE_ID_ERC1271);
     }
 
     // function execute(
@@ -73,7 +86,7 @@ contract ERC734KeyManager is ERC165, IERC1271, AccessControl {
     // }
 
     function execute(bytes calldata _data) external payable {
-        address(account).call{value: msg.value, gas: gasleft()}(_data); //(success, ) =
+        address(Account).call{value: msg.value, gas: gasleft()}(_data); //(success, ) =
         emit Executed(msg.value, _data);
     }
 
