@@ -1,11 +1,15 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "module": "commonjs",
-    "strict": true,
+    "declaration": true,
     "esModuleInterop": true,
+    "lib": ["ES2018"],
+    "module": "CommonJS",
+    "moduleResolution": "node",
     "outDir": "dist",
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "strict": true,
+    "target": "ES2018",
+    "incremental": true
   },
   "include": ["./scripts", "./test"],
   "files": [
