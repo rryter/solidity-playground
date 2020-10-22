@@ -3,8 +3,6 @@ import { deployContract, loadFixture, MockProvider } from "ethereum-waffle";
 import ERC725AccountArtifact from "../artifacts/ERC725Account.json";
 import { Erc725Account } from "../types/Erc725Account";
 
-const { expect } = require("chai");
-
 describe("ERC725 Account", () => {
   const provider = new MockProvider();
   const [wallet, owner] = provider.getWallets();
@@ -21,7 +19,7 @@ describe("ERC725 Account", () => {
 
   it("initializes correctly", async () => {
     const { account } = await loadFixture(fixture);
-    expect(await account.owner()).to.equal(owner.address);
+    expect(await account.owner()).toEqual(owner.address);
   });
 
   it("should move value correctly", async () => {
@@ -33,7 +31,7 @@ describe("ERC725 Account", () => {
       value: oneEth,
     });
 
-    expect(await provider.getBalance(account.address)).to.equal(oneEth);
+    expect(await provider.getBalance(account.address)).toEqual(oneEth);
   });
 
   it("should set data properly", async () => {
