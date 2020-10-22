@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "npm run compile && npx buidler typechain",
-    "compile": "buidler compile",
+    "compile": "buidler clean && buidler compile",
     "test": "buidler test"
   },
   "author": "",
