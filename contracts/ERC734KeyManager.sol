@@ -75,16 +75,6 @@ contract ERC734KeyManager is ERC165, IERC1271, AccessControl {
         _registerInterface(_INTERFACE_ID_ERC1271);
     }
 
-    // function execute(
-    //     uint256 _operation,
-    //     address _to,
-    //     uint256 _value,
-    //     bytes calldata _data
-    // ) external payable {
-    //     account.execute(_operation, _to, _value, _data); //(success, ) =
-    //     emit Executed(msg.value, _data);
-    // }
-
     function execute(bytes calldata _data) external payable {
         address(Account).call{value: msg.value, gas: gasleft()}(_data); //(success, ) =
         emit Executed(msg.value, _data);
