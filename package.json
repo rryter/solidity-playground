@@ -1,7 +1,7 @@
 {
-  "name": "erc725-playground",
-  "version": "1.0.0",
-  "description": "",
+  "name": "@twy-gmbh/erc725-playground",
+  "version": "0.1.0",
+  "description": "This is only used for experimentation with the Solidity-Ecosystem. Nothing to see here.",
   "main": "index.js",
   "scripts": {
     "build": "npm run compile && npx buidler typechain",
@@ -9,8 +9,8 @@
     "test": "buidler test",
     "tdd": "jest --watch"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Reto Ryter",
+  "license": "MIT",
   "devDependencies": {
     "@ethereum-waffle/jest": "^3.1.1",
     "@nomiclabs/buidler": "^1.4.8",
@@ -36,5 +36,19 @@
   "dependencies": {
     "@openzeppelin/contracts": "^3.2.0",
     "solidity-bytes-utils": "^0.1.1"
-  }
+  },
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rryter/solidity-playground.git"
+  },
+  "keywords": [
+    "Solidity"
+  ],
+  "bugs": {
+    "url": "https://github.com/rryter/solidity-playground/issues"
+  },
+  "homepage": "https://github.com/rryter/solidity-playground#readme"
 }
