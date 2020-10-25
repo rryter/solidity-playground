@@ -9,7 +9,7 @@
   ],
   "scripts": {
     "release": "standard-version",
-    "build": "npm run compile && npx buidler typechain",
+    "build": "npm run compile && npx buidler typechain && tsc types/index.ts",
     "compile": "buidler clean && buidler compile",
     "test": "buidler test",
     "tdd": "jest --watch"
