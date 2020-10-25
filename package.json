@@ -1,8 +1,12 @@
 {
   "name": "@twy-gmbh/erc725-playground",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "This is only used for experimentation with the Solidity-Ecosystem. Nothing to see here.",
   "main": "index.js",
+  "files": [
+    "types/index.ts",
+    "/artifacts"
+  ],
   "scripts": {
     "build": "npm run compile && npx buidler typechain",
     "compile": "buidler clean && buidler compile",
