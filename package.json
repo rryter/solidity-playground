@@ -1,6 +1,6 @@
 {
   "name": "@twy-gmbh/erc725-playground",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "This is only used for experimentation with the Solidity-Ecosystem. Nothing to see here.",
   "main": "index.js",
   "files": [
