@@ -7,6 +7,7 @@ usePlugin("buidler-gas-reporter");
 interface ExtendedBuidlerConfig extends BuidlerConfig {
   optimizer: any;
   gasReporter: any;
+  typechain: any;
 }
 
 const config: ExtendedBuidlerConfig = {
