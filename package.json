@@ -6,7 +6,7 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "release": "standard-version",
-    "build": "npm run compile && npx buidler typechain && tsc types/index.ts",
+    "build": "npm run compile && npx buidler typechain && tsc dist/index.ts",
     "compile": "buidler clean && buidler compile",
     "test": "jest --runInBand",
     "tdd": "jest --watch"
