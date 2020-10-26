@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.9](https://github.com/rryter/solidity-playground/compare/v0.1.8...v0.1.9) (2020-10-26)
+
+
+### Bug Fixes
+
+* **build:** fix compilation ([708aba5](https://github.com/rryter/solidity-playground/commit/708aba5e614340fd9f5789356cb904d5ccd3da5e))
+* **tests:** use jest ([1b868aa](https://github.com/rryter/solidity-playground/commit/1b868aa7d8b7d847c54adae07f46a881fde4fb2b))
+
 ### [0.1.8](https://github.com/rryter/solidity-playground/compare/v0.1.7...v0.1.8) (2020-10-26)
 
 
