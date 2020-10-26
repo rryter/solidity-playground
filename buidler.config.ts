@@ -32,7 +32,7 @@ const config: ExtendedBuidlerConfig = {
     },
   },
   typechain: {
-    outDir: "dist",
+    outDir: "types",
     target: "ethers-v5",
   },
 };
