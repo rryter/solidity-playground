@@ -26,6 +26,7 @@
     "buidler-typechain": "^0.2.2",
     "chai": "^4.2.0",
     "ethereum-waffle": "^3.1.1",
+    "ethereumjs-abi": "https://github.com/ethereumjs/ethereumjs-abi.git",
     "ethers": "^5.0.18",
     "jest": "^26.6.0",
     "jest-environment-node-single-context": "^26.2.0",
