@@ -4,9 +4,11 @@ node_js:
 
 cache: npm
 
-before_script:
+before_install:
   - 'git config --global url."https://github.com/".insteadOf git@github.com:'
   - 'git config --global url."https://".insteadOf git://'
+
+before_script:
   - "echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p"
 
 script:
