@@ -8,7 +8,7 @@
     "release": "standard-version",
     "build": "npm run compile && npx buidler typechain && tsc types/index.ts",
     "compile": "buidler clean && buidler compile",
-    "test": "buidler test",
+    "test": "jest --runInBand",
     "tdd": "jest --watch"
   },
   "author": "Reto Ryter",
