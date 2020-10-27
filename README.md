@@ -1,7 +1,7 @@
 # ERC-725 Playground
 
 [![NPM Package](https://img.shields.io/npm/v/@twy-gmbh/erc725-playground.svg?style=flat-square)](https://www.npmjs.org/package/@twy-gmbh/erc725-playground)
-![Build Status](https://github.com/nomiclabs/hardhat/workflows/CI/badge.svg)
+[![Build Status](https://travis-ci.com/rryter/solidity-playground.svg?branch=main)](https://travis-ci.com/rryter/solidity-playground)
 [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
 
 ## Do not use this yet.
