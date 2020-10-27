@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.13](https://github.com/rryter/solidity-playground/compare/v0.1.12...v0.1.13) (2020-10-27)
+
+
+### Bug Fixes
+
+* **modules:** revert to commonjs ([254a05f](https://github.com/rryter/solidity-playground/commit/254a05fba3e6ad0ff96a7c4d80ea9f9f81e0a510))
+
 ### [0.1.12](https://github.com/rryter/solidity-playground/compare/v0.1.11...v0.1.12) (2020-10-26)
 
 ### [0.1.11](https://github.com/rryter/solidity-playground/compare/v0.1.10...v0.1.11) (2020-10-26)
