@@ -6,9 +6,7 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "release": "standard-version",
-    "build": "npm run compile && npx buidler typechain && npm run copy-declaration-files && npm run tsc-typings",
-    "copy-declaration-files": "mkdir dist && cp -r types/*.d.ts dist/",
-    "tsc-typings": "tsc types/index.ts --outDir dist --declaration true",
+    "build": "npm run compile && npx buidler typechain",
     "clean": "rm -rf dist",
     "compile": "buidler clean && npm run clean && buidler compile",
     "test": "jest --runInBand",
