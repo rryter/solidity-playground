@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.24](https://github.com/rryter/solidity-playground/compare/v0.1.23...v0.1.24) (2020-10-27)
+
+
+### Features
+
+* readme and cleanup ([e987ae9](https://github.com/rryter/solidity-playground/commit/e987ae962b0248b91df1de266be93f5f2724df37))
+
 ### [0.1.23](https://github.com/rryter/solidity-playground/compare/v0.1.22...v0.1.23) (2020-10-27)
 
 ### [0.1.22](https://github.com/rryter/solidity-playground/compare/v0.1.21...v0.1.22) (2020-10-27)
