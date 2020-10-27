@@ -1,7 +1,7 @@
 import { deployContract, loadFixture, MockProvider } from "ethereum-waffle";
 import { utils } from "ethers";
-import ERC725AccountArtifact from "../artifacts/ERC725Account.json";
-import { Erc725Account } from "../types/Erc725Account";
+import ERC725AccountArtifact from "../artifacts/contracts/ERC725Account.sol/ERC725Account.json";
+import { Erc725Account } from "../typechain/Erc725Account";
 
 describe("ERC725 Account", () => {
   const provider = new MockProvider();

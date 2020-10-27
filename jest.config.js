@@ -4,7 +4,8 @@ module.exports = {
   setupFilesAfterEnv: ["./jest.setup.ts"],
   globals: {
     "ts-jest": {
-      isolatedModules: true,
+      tsconfig: "tsconfig.test.json",
     },
   },
+  maxWorkers: 1,
 };

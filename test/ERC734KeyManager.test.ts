@@ -1,8 +1,7 @@
 import { deployContract, loadFixture, MockProvider } from "ethereum-waffle";
-import { BigNumber, utils } from "ethers";
-import ERC725AccountArtifact from "../artifacts/ERC725Account.json";
-import ERC734KeyManagerArtifact from "../artifacts/ERC734KeyManager.json";
-import { Erc725Account, Erc734KeyManager } from "../types/index";
+import { utils } from "ethers";
+import ERC725AccountArtifact from "../artifacts/contracts/ERC725Account.sol/ERC725Account.json";
+import ERC734KeyManagerArtifact from "../artifacts/contracts/ERC734KeyManager.sol/ERC734KeyManager.json";
 
 const MANAGEMENT_PURPOSE = 1;
 const EXECUTE_PURPOSE = 2;
@@ -14,11 +13,8 @@ describe("ERC734 KeyManager", () => {
   const key = utils.keccak256(owner.address);
 
   async function fixture([wallet]: any[]) {
-    const account = (await deployContract(owner, ERC725AccountArtifact, [owner.address])) as Erc725Account;
-    const keyManager = (await deployContract(owner, ERC734KeyManagerArtifact, [
-      account.address,
-      owner.address,
-    ])) as Erc734KeyManager;
+    const account = await deployContract(owner, ERC725AccountArtifact, [owner.address]);
+    const keyManager = await deployContract(owner, ERC734KeyManagerArtifact, [account.address, owner.address]);
     await account.transferOwnership(keyManager.address);
     return { account, keyManager, wallet };
   }

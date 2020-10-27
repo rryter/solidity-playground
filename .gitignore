@@ -3,5 +3,5 @@ node_modules
 #Buidler files
 cache
 artifacts
-types
+typechain
 dist
