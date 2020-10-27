@@ -1,11 +1,11 @@
 {
   "name": "@twy-gmbh/erc725-playground",
-  "version": "0.1.21",
+  "version": "0.1.22",
   "description": "This is only used for experimentation with the Solidity-Ecosystem. Nothing to see here.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "release": "npm run build && standard-version",
+    "release": "npm run clean && npm run build && standard-version",
     "build": "npm run compile && npm run typechain && tsc && cp -r typechain/*.d.ts dist/",
     "typechain": "npx typechain --target ethers-v5 --outDir typechain 'artifacts/!(build-info)/**/+([a-zA-Z0-9]).json'",
     "clean": "rm -rf dist",
