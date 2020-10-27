@@ -1,7 +1,7 @@
 import { deployContract, loadFixture, MockProvider } from "ethereum-waffle";
 import { utils } from "ethers";
 import ERC725AccountArtifact from "../artifacts/contracts/ERC725Account.sol/ERC725Account.json";
-import { Erc725Account } from "../typechain/Erc725Account";
+import { Erc725Account, Erc725AccountFactory } from "../dist";
 
 describe("ERC725 Account", () => {
   const provider = new MockProvider();
@@ -16,6 +16,8 @@ describe("ERC725 Account", () => {
   }
 
   it("initializes correctly", async () => {
+    const a = new Erc725AccountFactory();
+    console.log(a);
     const { account } = await loadFixture(fixture);
     expect(await account.owner()).toEqual(owner.address);
   });
