@@ -68,6 +68,7 @@ contract ERC734KeyManager is ERC165, IERC1271, AccessControl {
         uint256[] storage _purposes;
 
         _purposes.push(MANAGEMENT_KEY);
+        _purposes.push(EXECUTION_KEY);
 
         setKey(_newOwner, _purposes, ECDSA_TYPE);
 
@@ -113,6 +114,7 @@ contract ERC734KeyManager is ERC165, IERC1271, AccessControl {
         for (uint256 i = 0; i < keysMapping[_key].privilegesLUT.length; i++) {
             delete keysMapping[_key].privileges[keysMapping[_key].privilegesLUT[i]];
         }
+
         delete keysMapping[_key].privilegesLUT;
 
         for (uint256 i = 0; i < _purposes.length; i++) {
