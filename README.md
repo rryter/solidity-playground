@@ -6,23 +6,23 @@
 
 ## Do not use this yet.
 
-This is just an experimentation space for Solidity, Typechain and Hardhat.
+Most of the sourcecode of the contracts comes from https://github.com/ERC725Alliance/ERC725/tree/master/implementations.
 
-## Contribute
+This is just an experimentation / learning space for Solidity, Typechain and Hardhat.
 
-### Compile
+## Compile
 
 ```
 npm run build
 ```
 
-### Publish a new version
+## Publish a new version
 
 ```
 npm run release
 ```
 
-### Tests
+## Tests
 
 How to run all the tests
 
@@ -30,13 +30,13 @@ How to run all the tests
 jest
 ```
 
-#### Watch mode:
+### Watch mode:
 
 ```
 jest --watch
 ```
 
-### Conventional commits
+## Conventional commits
 
 The Conventional Commits specification is a lightweight convention on top of commit messages.
 It provides an easy set of rules for creating an explicit commit history;

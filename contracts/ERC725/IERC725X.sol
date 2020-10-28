@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: CC0-1.0
-pragma solidity >=0.5.0 <0.7.0;
+pragma solidity ^0.6.7;
 
 /**
  * @dev Contract module which provides the ability to call arbitrary functions at any other smart contract and itself,
@@ -20,12 +20,7 @@ interface IERC725X {
     /**
      * @dev Emitted when a contract executed.
      */
-    event Executed(
-        uint256 indexed _operation,
-        address indexed _to,
-        uint256 indexed _value,
-        bytes _data
-    );
+    event Executed(uint256 indexed _operation, address indexed _to, uint256 indexed _value, bytes _data);
 
     /**
      * @dev Executes any other smart contract.

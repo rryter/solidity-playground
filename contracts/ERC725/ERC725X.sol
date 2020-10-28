@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: Apache-2.0
-pragma solidity ^0.6.0;
+pragma solidity ^0.6.7;
 
 // interfaces
 import "./IERC725X.sol";
@@ -50,7 +50,8 @@ contract ERC725X is ERC165, Ownable, IERC725X {
      *
      *
      * @param _operation the operation to execute: CALL = 0; DELEGATECALL = 1; CREATE2 = 2; CREATE = 3;
-     * @param _to the smart contract or address to interact with. `_to` will be unused if a contract is created (operation 2 and 3)
+     * @param _to the smart contract or address to interact with. 
+                    `_to` will be unused if a contract is created (operation 2 and 3)
      * @param _value the value of ETH to transfer
      * @param _data the call data, or the contract data to deploy
      */
@@ -106,15 +107,7 @@ contract ERC725X is ERC165, Ownable, IERC725X {
     ) internal returns (bool success) {
         // solium-disable-next-line security/no-inline-assembly
         assembly {
-            success := call(
-                txGas,
-                to,
-                value,
-                add(data, 0x20),
-                mload(data),
-                0,
-                0
-            )
+            success := call(txGas, to, value, add(data, 0x20), mload(data), 0, 0)
         }
     }
 
@@ -127,30 +120,16 @@ contract ERC725X is ERC165, Ownable, IERC725X {
     ) internal returns (bool success) {
         // solium-disable-next-line security/no-inline-assembly
         assembly {
-            success := delegatecall(
-                txGas,
-                to,
-                add(data, 0x20),
-                mload(data),
-                0,
-                0
-            )
+            success := delegatecall(txGas, to, add(data, 0x20), mload(data), 0, 0)
         }
     }
 
     // Taken from GnosisSafe
     // https://github.com/gnosis/safe-contracts/blob/development/contracts/libraries/CreateCall.sol
-    function performCreate(uint256 value, bytes memory deploymentData)
-        internal
-        returns (address newContract)
-    {
+    function performCreate(uint256 value, bytes memory deploymentData) internal returns (address newContract) {
         // solium-disable-next-line security/no-inline-assembly
         assembly {
-            newContract := create(
-                value,
-                add(deploymentData, 0x20),
-                mload(deploymentData)
-            )
+            newContract := create(value, add(deploymentData, 0x20), mload(deploymentData))
         }
         require(newContract != address(0), "Could not deploy contract");
         emit ContractCreated(newContract);

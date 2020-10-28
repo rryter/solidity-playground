@@ -1,13 +1,13 @@
 // SPDX-License-Identifier: Apache-2.0
-pragma solidity ^0.6.0;
+pragma solidity ^0.6.7;
 
 // modules
 import "./ERC725.sol";
-import "./IERC1271.sol";
+import "../IERC1271.sol";
 
 // libraries
 import "@openzeppelin/contracts/cryptography/ECDSA.sol";
-import "./helpers/UtilsLib.sol";
+import "../helpers/UtilsLib.sol";
 
 /**
  * @title ERC725Account
@@ -62,22 +62,11 @@ contract ERC725Account is ERC725, IERC1271 {
      * @param _hash hash of the data signed//Arbitrary length data signed on the behalf of address(this)
      * @param _signature owner's signature(s) of the data
      */
-    function isValidSignature(bytes32 _hash, bytes memory _signature)
-        public
-        override
-        view
-        returns (bytes4 magicValue)
-    {
-        if (
-            UtilsLib.isContract(owner()) &&
-            supportsInterface(_INTERFACE_ID_ERC1271)
-        ) {
+    function isValidSignature(bytes32 _hash, bytes memory _signature) public override view returns (bytes4 magicValue) {
+        if (UtilsLib.isContract(owner()) && supportsInterface(_INTERFACE_ID_ERC1271)) {
             return IERC1271(owner()).isValidSignature(_hash, _signature);
         } else {
-            return
-                owner() == ECDSA.recover(_hash, _signature)
-                    ? _INTERFACE_ID_ERC1271
-                    : _ERC1271FAILVALUE;
+            return owner() == ECDSA.recover(_hash, _signature) ? _INTERFACE_ID_ERC1271 : _ERC1271FAILVALUE;
         }
     }
 }

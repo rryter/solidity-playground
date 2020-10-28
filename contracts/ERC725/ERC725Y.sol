@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: Apache-2.0
-pragma solidity ^0.6.0;
+pragma solidity ^0.6.7;
 
 // interfaces
 import "./IERC725Y.sol";
@@ -43,13 +43,7 @@ contract ERC725Y is ERC165, Ownable, IERC725Y {
      * @param _key the key which value to retrieve
      * @return _value The date stored at the key
      */
-    function getData(bytes32 _key)
-        public
-        virtual
-        override
-        view
-        returns (bytes memory _value)
-    {
+    function getData(bytes32 _key) public virtual override view returns (bytes memory _value) {
         return store[_key];
     }
 
@@ -58,12 +52,7 @@ contract ERC725Y is ERC165, Ownable, IERC725Y {
      * @param _key the key which value to retrieve
      * @param _value the bytes to set.
      */
-    function setData(bytes32 _key, bytes calldata _value)
-        external
-        virtual
-        override
-        onlyOwner
-    {
+    function setData(bytes32 _key, bytes calldata _value) external virtual override onlyOwner {
         store[_key] = _value;
         emit DataChanged(_key, _value);
     }

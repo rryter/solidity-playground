@@ -1,28 +1,20 @@
 /**
  * SPDX-License-Identifier: UNLICENSED
  */
-pragma solidity >=0.4.22 <0.8.0;
+pragma solidity ^0.6.7;
 
 /**
  * @title Vault
  * @dev Timelocked Vault
  */
 contract SmartVault {
-    enum WeekDay {
-        Monday,
-        Tuesday,
-        Wednesday,
-        Thursday,
-        Friday,
-        Saturday,
-        Sunday
-    }
-    uint256 lockedAt;
-    uint256 funds;
-    address owner;
+    enum WeekDay {Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday}
+    uint256 internal lockedAt;
+    uint256 internal funds;
+    address internal owner;
 
     modifier ownerOnly() {
-        require(msg.sender == owner);
+        require(msg.sender == owner, "Only owners");
         _;
     }
 
