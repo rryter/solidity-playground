@@ -1,6 +1,6 @@
 import { MockProvider } from "ethereum-waffle";
 import { utils } from "ethers";
-import { Erc725Account, Erc725AccountFactory } from "../dist";
+import { Erc725Account, Erc725AccountFactory } from "../typechain";
 
 describe("ERC725 Account", () => {
   const provider = new MockProvider();

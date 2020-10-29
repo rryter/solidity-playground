@@ -66,10 +66,7 @@ contract ERC734KeyManager is ERC165, IERC1271, AccessControl {
         account = IERC725X(_account);
         initialized = true;
         uint256[] storage _purposes;
-
         _purposes.push(MANAGEMENT_KEY);
-        _purposes.push(EXECUTION_KEY);
-
         setKey(_newOwner, _purposes, ECDSA_TYPE);
 
         _registerInterface(_INTERFACE_ID_ERC1271);
@@ -86,7 +83,7 @@ contract ERC734KeyManager is ERC165, IERC1271, AccessControl {
         public
         view
         returns (
-            uint256[] memory _purposes,
+            uint256[] memory _privilegesLUT,
             uint256 _keyType,
             address _keyAddress
         )
@@ -145,7 +142,6 @@ contract ERC734KeyManager is ERC165, IERC1271, AccessControl {
     }
 
     function getAllKeys() public view returns (bytes32[] memory) {
-        require(hasPrivilege(msg.sender, MANAGEMENT_KEY), "Only managers are allowed to read all the keys");
         return keys;
     }
 

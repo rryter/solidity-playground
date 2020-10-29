@@ -18,7 +18,7 @@ const config = {
     },
   },
   typechain: {
-    outDir: "src/types",
+    outDir: "typechain",
     target: "ethers-v5",
   },
 };
