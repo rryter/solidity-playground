@@ -11,5 +11,10 @@
     "forceConsistentCasingInFileNames": true
   },
   "files": ["typechain/index.ts"],
-  "exclude": ["typings/index.d.ts"]
+  "exclude": ["typings/index.d.ts"],
+  "include": [
+    "./node_modules/@ethereum-waffle/jest/src/types.d.ts",
+    "./node_modules/@nomiclabs/buidler-ethers/src/type-extensions.d.ts",
+    "./node_modules/@nomiclabs/buidler-waffle/src/type-extensions.d.ts"
+  ]
 }

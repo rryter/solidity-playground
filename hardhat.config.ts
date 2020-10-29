@@ -1,4 +1,6 @@
 import "@nomiclabs/hardhat-ethers";
+import "@nomiclabs/hardhat-waffle";
+import "hardhat-typechain";
 
 const config = {
   solidity: {
@@ -14,6 +16,10 @@ const config = {
       gasPrice: 80,
       blockGasLimit: 100000000,
     },
+  },
+  typechain: {
+    outDir: "src/types",
+    target: "ethers-v5",
   },
 };
 

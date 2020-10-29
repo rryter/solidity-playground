@@ -1,6 +1,6 @@
 module.exports = {
   preset: "ts-jest",
-  testEnvironment: "jest-environment-node-single-context",
+  testEnvironment: "node",
   setupFilesAfterEnv: ["./jest.setup.ts"],
   globals: {
     "ts-jest": {
@@ -8,5 +8,5 @@ module.exports = {
       isolatedModules: true,
     },
   },
-  maxWorkers: 1,
+  maxWorkers: 4,
 };
