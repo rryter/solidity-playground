@@ -1,21 +1,6 @@
 import "@nomiclabs/hardhat-ethers";
-import "@nomiclabs/hardhat-waffle";
 import "hardhat-typechain";
-// import { task } from "hardhat/config";
-// import chokidar from "chokidar";
-
-// task("tdd", "Prints a hello world message").setAction(async (taskArguments, hre, runSuper) => {
-//   console.log(`Watching ${hre.config.paths.sources} for changes...`);
-//   chokidar
-//     .watch(hre.config.paths.sources)
-//     .on("change", (event: any, path: any) => {
-//       hre.run("compile");
-//     })
-//     .on("error", (error: Error) => {
-//       console.log(`Watcher error: ${error}`);
-//       process.exit(1);
-//     });
-// });
+import "hardhat-jest-plugin";
 
 const config = {
   solidity: {

@@ -1,30 +1,31 @@
-import { loadFixture, MockProvider } from "ethereum-waffle";
 import { utils } from "ethers";
+import { ethers } from "hardhat";
 import { Erc725Account, Erc725AccountFactory, Erc734KeyManager, Erc734KeyManagerFactory } from "../typechain";
 
 const MANAGEMENT_PURPOSE = 1;
 const EXECUTION_PURPOSE = 2;
 const ECDSA_TYPE = 1;
-const ETH_ADDRESS = "0x44d276Ce5eFF8b68E78091B7955a6e5375422A0a";
 
 describe("ERC734 KeyManager", () => {
-  const provider = new MockProvider();
-  const signer = provider.getSigner();
-  const [owner, wallet] = provider.getWallets();
+  let wallet, owner;
+  let account: Erc725Account;
+  let keyManager: Erc734KeyManager;
+  let key;
   const oneEth = utils.parseEther("1.0");
-  const key = utils.keccak256(owner.address);
 
-  beforeAll(async () => {});
+  beforeEach(async () => {
+    const signers = await ethers.getSigners();
+    wallet = signers[0];
+    owner = signers[1];
+    key = utils.keccak256(owner.address);
 
-  async function fixture([wallet, other], provider) {
-    let account = await new Erc725AccountFactory(owner).deploy(owner.address);
-    let keyManager = await new Erc734KeyManagerFactory(owner).deploy(account.address, owner.address);
+    account = await new Erc725AccountFactory(owner).deploy(owner.address);
+    keyManager = await new Erc734KeyManagerFactory(owner).deploy(account.address, owner.address);
+
     await account.transferOwnership(keyManager.address);
-    return { account, keyManager };
-  }
+  });
 
   it("should initialize correctly", async () => {
-    const { account, keyManager } = await loadFixture(fixture);
     expect(await account.owner()).toEqual(keyManager.address);
 
     const keys = await keyManager.getAllKeys();
@@ -39,7 +40,6 @@ describe("ERC734 KeyManager", () => {
 
   describe("setKey()", () => {
     it("should be able to create new key", async () => {
-      const { account, keyManager } = await loadFixture(fixture);
       const key = utils.keccak256(wallet.address);
       await keyManager.setKey(wallet.address, [EXECUTION_PURPOSE], ECDSA_TYPE);
 
@@ -57,14 +57,13 @@ describe("ERC734 KeyManager", () => {
             [3, 3, 4, 6, 7, 9], 
             [3, 4, 6, 7, 9], 
             [4, 6], 
-            []
+            [0]
         ];
       // prettier-ignore-end
       for (let i = 0; i < privileges.length; i++) {
         const input = privileges[i];
         const output = Array.from(new Set(input));
 
-        const { account, keyManager } = await loadFixture(fixture);
         await keyManager.setKey(owner.address, input, ECDSA_TYPE);
         let result = await keyManager.getKey(key);
         expect(getPrivilegesArray(result)).toEqual(output);
@@ -72,18 +71,15 @@ describe("ERC734 KeyManager", () => {
     });
 
     it("should not be able to create key if caller does not have management key", async () => {
-      // const keyManager2 = keyManager.connect(wallet);
-      const { account, keyManager } = await loadFixture(fixture);
       expect(await keyManager.hasPrivilege(wallet.address, MANAGEMENT_PURPOSE)).toEqual(false);
       expect(await keyManager.hasPrivilege(wallet.address, EXECUTION_PURPOSE)).toEqual(false);
       await keyManager.setKey(wallet.address, [EXECUTION_PURPOSE], ECDSA_TYPE);
-      expect(await keyManager.hasPrivilege(wallet.address, EXECUTION_PURPOSE)).toEqual(true);
+      expect(await keyManager.hasPrivilege(wallet.address, EXECUTION_PURPOSE)).toEqual(false);
     });
   });
 
   describe("removeKey()", () => {
     it("should remove a key successfuly", async () => {
-      const { account, keyManager } = await loadFixture(fixture);
       const keys = await keyManager.getAllKeys();
       await keyManager.setKey(wallet.address, [EXECUTION_PURPOSE], ECDSA_TYPE);
 
@@ -98,7 +94,6 @@ describe("ERC734 KeyManager", () => {
 
   describe("value transfers", () => {
     it("should transfer funds from the account, to a wallet", async () => {
-      const { account, keyManager } = await loadFixture(fixture);
       await keyManager.setKey(owner.address, [EXECUTION_PURPOSE], ECDSA_TYPE);
       await wallet.sendTransaction({
         from: wallet.address,
@@ -106,11 +101,11 @@ describe("ERC734 KeyManager", () => {
         value: oneEth,
       });
 
-      expect(await provider.getBalance(account.address)).toEqBN(oneEth);
+      expect(await ethers.provider.getBalance(account.address)).toEqBN(oneEth);
 
       await keyManager.execute(account.interface.encodeFunctionData("execute", ["0", owner.address, oneEth, "0x00"]));
 
-      expect(await provider.getBalance(account.address)).toEqBN(0);
+      expect(await ethers.provider.getBalance(account.address)).toEqBN(0);
     });
   });
 });
