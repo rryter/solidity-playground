@@ -48,10 +48,9 @@ contract ERC734KeyManager is ERC165, IERC1271, AccessControl {
     IERC725X public account;
 
     modifier onlyManagementKeyOrSelf() {
-        // if (msg.sender != address(this)) {
-        //     console.log(msg.sender);
-        //     require(hasPrivilege(msg.sender, MANAGEMENT_KEY), "sender-must-have-management-key");
-        // }
+        if (msg.sender != address(this)) {
+            require(hasPrivilege(msg.sender, MANAGEMENT_KEY), "sender-must-have-management-key");
+        }
         _;
     }
 
@@ -61,7 +60,13 @@ contract ERC734KeyManager is ERC165, IERC1271, AccessControl {
         initialized = true;
         uint256[] storage _purposes;
         _purposes.push(MANAGEMENT_KEY);
-        setKey(_newOwner, _purposes, ECDSA_TYPE);
+
+        bytes32 _key = keccak256(abi.encodePacked(_newOwner));
+        keys.push(_key);
+        keysMapping[_key].keyAddress = _newOwner;
+        keysMapping[_key].keyType = ECDSA_TYPE;
+        keysMapping[_key].privilegesLUT.push(MANAGEMENT_KEY);
+        keysMapping[_key].privileges[MANAGEMENT_KEY] = true;
 
         _registerInterface(_INTERFACE_ID_ERC1271);
     }

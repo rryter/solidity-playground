@@ -1,6 +1,7 @@
 import { utils } from "ethers";
 import { Erc725Account, Erc725AccountFactory } from "../typechain";
 import { ethers } from "hardhat";
+
 describe("ERC725 Account", () => {
   let wallet, owner;
   const oneEth = utils.parseEther("1.0");
