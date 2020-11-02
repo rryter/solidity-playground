@@ -10,7 +10,6 @@
     "declaration": true,
     "declarationMap": true
   },
-  "files": ["./jest.setup.ts"],
   "include": [
     "./node_modules/@nomiclabs/buidler-ethers/src/type-extensions.d.ts",
     "./node_modules/@nomiclabs/buidler-waffle/src/type-extensions.d.ts"
