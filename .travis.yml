@@ -2,8 +2,6 @@ language: node_js
 node_js:
   - 12
 
-cache: npm
-
 before_install:
   - sed -i 's/ssh:\/\/git@/https:\/\//g' package-lock.json
 
