@@ -5,11 +5,11 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "release": "npm run clean && npm run build && standard-version",
-    "build": "npm run compile && npm run typechain && tsc && cp -r typechain/*.d.ts dist/",
+    "release": "npm run clean && npm run lint && npm run build && standard-version",
+    "build": "npm run compile && tsc && cp -r typechain/*.d.ts dist/",
     "clean": "rm -rf dist",
     "lint": "solhint 'contracts/**/*.sol'",
-    "compile": "hardhat compile",
+    "compile": "npm run lint && hardhat compile",
     "watcher": "npm run build",
     "test": "jest --runInBand",
     "tdd": "jest --watch"
