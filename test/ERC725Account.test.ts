@@ -1,13 +1,15 @@
-import { MockProvider } from "ethereum-waffle";
 import { utils } from "ethers";
 import { Erc725Account, Erc725AccountFactory } from "../typechain";
+import { ethers } from "hardhat";
 
 describe("ERC725 Account", () => {
-  const provider = new MockProvider();
-  const [wallet, owner] = provider.getWallets();
+  let wallet, owner;
   const oneEth = utils.parseEther("1.0");
   let account: Erc725Account;
   beforeAll(async () => {
+    const signers = await ethers.getSigners();
+    wallet = signers[0];
+    owner = signers[1];
     account = await new Erc725AccountFactory(owner).deploy(owner.address); // ?.
   });
 
@@ -22,7 +24,7 @@ describe("ERC725 Account", () => {
       value: oneEth,
     });
 
-    expect(await provider.getBalance(account.address)).toEqual(oneEth);
+    expect(await ethers.provider.getBalance(account.address)).toEqual(oneEth);
   });
 
   it("should set data properly", async () => {

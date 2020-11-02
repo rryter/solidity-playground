@@ -21,12 +21,13 @@ contract ERC734KeyManager is ERC165, IERC1271, AccessControl {
     using ECDSA for bytes32;
     using SafeMath for uint256;
 
-    bytes4 internal constant _INTERFACE_ID_ERC1271 = 0x1626ba7e;
-    bytes4 internal constant _ERC1271FAILVALUE = 0xffffffff;
-
     event KeySet(bytes32 indexed key, uint256[] indexed purposes, uint256 indexed keyType, address keyAddress);
     event KeyRemoved(bytes32 indexed key, uint256[] indexed purposes, uint256 indexed keyType, address keyAddress);
     event Executed(uint256 indexed _value, bytes _data);
+
+    bytes4 internal constant _INTERFACE_ID_ERC1271 = 0x1626ba7e;
+    bytes4 internal constant _ERC1271FAILVALUE = 0xffffffff;
+    bool internal initialized;
 
     uint256 public constant MANAGEMENT_KEY = 1;
     uint256 public constant EXECUTION_KEY = 2;
@@ -35,29 +36,21 @@ contract ERC734KeyManager is ERC165, IERC1271, AccessControl {
     uint256 public constant RSA_TYPE = 2;
 
     struct Key {
-        // A purpose is represented via bitmasks
-        // Maximum number of a purpose is 256 and must be an integer that is power of 2 e.g.:
-        // 1, 2, 4, 8, 16, 32, 64 ...
-        // All other integers represent multiple purposes e.g:
-        // Integer 3 (011) represent both 1 (001) and 2 (010) purpose
         mapping(uint256 => bool) privileges;
         uint256[] privilegesLUT;
         uint256 keyType;
         address keyAddress;
     }
 
-    IERC725X public account;
-
     mapping(bytes32 => Key) internal keysMapping;
     bytes32[] public keys;
 
-    bool internal initialized;
+    IERC725X public account;
 
     modifier onlyManagementKeyOrSelf() {
-        // if (msg.sender != address(this)) {
-        //     console.log(msg.sender);
-        //     require(hasPrivilege(msg.sender, MANAGEMENT_KEY), "sender-must-have-management-key");
-        // }
+        if (msg.sender != address(this)) {
+            require(hasPrivilege(msg.sender, MANAGEMENT_KEY), "sender-must-have-management-key");
+        }
         _;
     }
 
@@ -67,7 +60,13 @@ contract ERC734KeyManager is ERC165, IERC1271, AccessControl {
         initialized = true;
         uint256[] storage _purposes;
         _purposes.push(MANAGEMENT_KEY);
-        setKey(_newOwner, _purposes, ECDSA_TYPE);
+
+        bytes32 _key = keccak256(abi.encodePacked(_newOwner));
+        keys.push(_key);
+        keysMapping[_key].keyAddress = _newOwner;
+        keysMapping[_key].keyType = ECDSA_TYPE;
+        keysMapping[_key].privilegesLUT.push(MANAGEMENT_KEY);
+        keysMapping[_key].privileges[MANAGEMENT_KEY] = true;
 
         _registerInterface(_INTERFACE_ID_ERC1271);
     }

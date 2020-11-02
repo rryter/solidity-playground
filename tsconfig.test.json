@@ -1,14 +1,16 @@
 {
   "compilerOptions": {
-    "target": "es2020",
+    "incremental": true,
+    "target": "es2018",
     "module": "commonjs",
     "strict": true,
+    "moduleResolution": "node",
     "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
+    "sourceMap": true,
+    "declaration": true,
+    "declarationMap": true
   },
   "include": [
-    "./node_modules/@ethereum-waffle/jest/src/types.d.ts",
     "./node_modules/@nomiclabs/buidler-ethers/src/type-extensions.d.ts",
     "./node_modules/@nomiclabs/buidler-waffle/src/type-extensions.d.ts"
   ]

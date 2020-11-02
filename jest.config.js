@@ -1,12 +1,21 @@
 module.exports = {
-  preset: "ts-jest",
-  testEnvironment: "node",
-  setupFilesAfterEnv: ["./jest.setup.ts"],
-  globals: {
-    "ts-jest": {
-      tsconfig: "tsconfig.test.json",
-      isolatedModules: true,
-    },
+  roots: ["<rootDir>/test"],
+  transform: {
+    "^.+\\.ts$": [
+      "@swc-node/jest",
+      {
+        target: "es2018",
+        module: "commonjs",
+        experimentalDecorators: true,
+        emitDecoratorMetadata: true,
+      },
+    ],
   },
-  maxWorkers: 4,
+  //   testEnvironment: "node",
+  testEnvironment: "jest-environment-node-single-context",
+  setupFilesAfterEnv: ["./jest.setup.ts"],
+  maxWorkers: 2,
+  logHeapUsage: true,
+  testRunner: "jest-circus/runner",
+  verbose: true,
 };
