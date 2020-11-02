@@ -32,6 +32,7 @@
     "jest-circus": "^26.6.1",
     "jest-environment-node-single-context": "^26.2.0",
     "nodemon": "^2.0.6",
+    "solhint": "^3.3.1",
     "standard-version": "^9.0.0",
     "ts-generator": "^0.1.1",
     "ts-jest": "^26.4.3",
