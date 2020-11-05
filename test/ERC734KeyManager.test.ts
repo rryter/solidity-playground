@@ -1,6 +1,6 @@
 import { utils } from "ethers";
 import { ethers } from "hardhat";
-import { Erc725Account, Erc725AccountFactory, Erc734KeyManager, Erc734KeyManagerFactory } from "../typechain";
+import { ERC725Account, ERC725AccountFactory, ERC734KeyManager, ERC734KeyManagerFactory } from "../typechain";
 
 const MANAGEMENT_PURPOSE = 1;
 const EXECUTION_PURPOSE = 2;
@@ -8,8 +8,8 @@ const ECDSA_TYPE = 1;
 
 describe("ERC734 KeyManager", () => {
   let wallet, owner;
-  let account: Erc725Account;
-  let keyManager: Erc734KeyManager;
+  let account: ERC725Account;
+  let keyManager: ERC734KeyManager;
   let key;
   const oneEth = utils.parseEther("1.0");
 
@@ -20,8 +20,8 @@ describe("ERC734 KeyManager", () => {
 
     key = utils.keccak256(owner.address);
 
-    account = await new Erc725AccountFactory(owner).deploy(owner.address);
-    keyManager = await new Erc734KeyManagerFactory(owner).deploy(account.address, owner.address);
+    account = await new ERC725AccountFactory(owner).deploy(owner.address);
+    keyManager = await new ERC734KeyManagerFactory(owner).deploy(account.address, owner.address);
 
     await account.transferOwnership(keyManager.address);
   });
@@ -34,7 +34,7 @@ describe("ERC734 KeyManager", () => {
     expect(keys).toHaveLength(1);
 
     let result = await keyManager.getKey(key);
-    expect(result._privilegesLUT.map((purpose) => purpose.toNumber())).toEqual([1]);
+    expect(result._privilegesLUT.map(purpose => purpose.toNumber())).toEqual([1]);
 
     expect(await keyManager.hasPrivilege(owner.address, MANAGEMENT_PURPOSE)).toEqual(true);
   });
@@ -100,17 +100,18 @@ describe("ERC734 KeyManager", () => {
       await wallet.sendTransaction({
         from: wallet.address,
         to: account.address,
-        value: oneEth,
+        value: oneEth
       });
 
       expect(await ethers.provider.getBalance(account.address)).toEqBN(oneEth);
 
       await keyManager.execute(account.interface.encodeFunctionData("execute", ["0", owner.address, oneEth, "0x00"]));
+
       expect(await ethers.provider.getBalance(account.address)).toEqBN(0);
     });
   });
 });
 
 function getPrivilegesArray(result): number[] {
-  return result._privilegesLUT.map((purpose) => purpose.toNumber());
+  return result._privilegesLUT.map(purpose => purpose.toNumber());
 }

@@ -1,16 +1,16 @@
 import { utils } from "ethers";
-import { Erc725Account, Erc725AccountFactory } from "../typechain";
+import { ERC725Account, ERC725AccountFactory } from "../typechain";
 import { ethers } from "hardhat";
 
 describe("ERC725 Account", () => {
   let wallet, owner;
   const oneEth = utils.parseEther("1.0");
-  let account: Erc725Account;
+  let account: ERC725Account;
   beforeAll(async () => {
     const signers = await ethers.getSigners();
     wallet = signers[0];
     owner = signers[1];
-    account = await new Erc725AccountFactory(owner).deploy(owner.address); // ?.
+    account = await new ERC725AccountFactory(owner).deploy(owner.address);
   });
 
   it("initializes correctly", async () => {
@@ -21,7 +21,7 @@ describe("ERC725 Account", () => {
     await wallet.sendTransaction({
       from: wallet.address,
       to: account.address,
-      value: oneEth,
+      value: oneEth
     });
 
     expect(await ethers.provider.getBalance(account.address)).toEqual(oneEth);

@@ -1,16 +1,14 @@
 {
   "compilerOptions": {
-    "target": "es2018",
-    "module": "commonjs",
-    "lib": ["es2018", "dom", "es2018.promise"],
-    "declaration": true,
+    "module": "CommonJS",
+    "lib": ["ES2018", "DOM", "ES2018.PROMISE"],
     "outDir": "./dist",
     "strict": true,
+    "target": "ES2018",
     "esModuleInterop": true,
-    "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true
   },
-  "files": ["typechain/index.ts"],
+  "files": ["./node_modules/@ethereum-waffle/jest/src/types.d.ts", "typechain/index.ts"],
   "exclude": ["typings/index.d.ts"],
   "include": [
     "./node_modules/@nomiclabs/hardhat-ethers/src/type-extensions.d.ts",

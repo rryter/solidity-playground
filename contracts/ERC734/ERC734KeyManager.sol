@@ -74,7 +74,8 @@ contract ERC734KeyManager is ERC165, IERC1271, AccessControl {
     function execute(bytes calldata _data) external payable {
         bool isExecutor = hasPrivilege(msg.sender, EXECUTION_KEY) || hasPrivilege(msg.sender, MANAGEMENT_KEY);
         require(isExecutor, "Only executors");
-        address(account).call{value: msg.value, gas: gasleft()}(_data); //(success, ) =
+        (bool success, ) = address(account).call{value: msg.value, gas: gasleft()}(_data);
+        console.log("function execute: sucess ->", success);
         emit Executed(msg.value, _data);
     }
 
