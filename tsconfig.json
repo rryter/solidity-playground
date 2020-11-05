@@ -6,7 +6,8 @@
     "strict": true,
     "target": "ES2018",
     "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "declaration": true
   },
   "files": ["./node_modules/@ethereum-waffle/jest/src/types.d.ts", "typechain/index.ts"],
   "exclude": ["typings/index.d.ts"],
