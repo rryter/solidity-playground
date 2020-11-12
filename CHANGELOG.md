@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.28](https://github.com/rryter/solidity-playground/compare/v0.1.27...v0.1.28) (2020-11-12)
+
+
+### Bug Fixes
+
+* **keymanager:** avoid unnescessary check ([93922e8](https://github.com/rryter/solidity-playground/commit/93922e8e91f1121d7b473e7d2a4ff37fb1e96759))
+
 ### [0.1.27](https://github.com/rryter/solidity-playground/compare/v0.1.26...v0.1.27) (2020-11-12)
 
 ### [0.1.26](https://github.com/rryter/solidity-playground/compare/v0.1.25...v0.1.26) (2020-11-05)
