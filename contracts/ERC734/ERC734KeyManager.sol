@@ -75,7 +75,6 @@ contract ERC734KeyManager is ERC165, IERC1271, AccessControl {
         bool isExecutor = hasPrivilege(msg.sender, EXECUTION_KEY) || hasPrivilege(msg.sender, MANAGEMENT_KEY);
         require(isExecutor, "Only executors");
         (bool success, ) = address(account).call{value: msg.value, gas: gasleft()}(_data);
-        console.log("function execute: sucess ->", success);
         emit Executed(msg.value, _data);
     }
 
@@ -115,10 +114,8 @@ contract ERC734KeyManager is ERC165, IERC1271, AccessControl {
         delete keysMapping[_key].privilegesLUT;
 
         for (uint256 i = 0; i < _purposes.length; i++) {
-            if (keysMapping[_key].privileges[_purposes[i]] == false) {
-                keysMapping[_key].privilegesLUT.push(_purposes[i]);
-                keysMapping[_key].privileges[_purposes[i]] = true;
-            }
+            keysMapping[_key].privilegesLUT.push(_purposes[i]);
+            keysMapping[_key].privileges[_purposes[i]] = true;
         }
 
         keysMapping[_key].keyAddress = _address;

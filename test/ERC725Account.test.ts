@@ -1,11 +1,13 @@
-import { utils } from "ethers";
+import { utils, Wallet } from "ethers";
 import { ERC725Account, ERC725AccountFactory } from "../typechain";
 import { ethers } from "hardhat";
 
 describe("ERC725 Account", () => {
-  let wallet, owner;
+  let wallet: Wallet;
+  let owner: Wallet;
   const oneEth = utils.parseEther("1.0");
   let account: ERC725Account;
+
   beforeAll(async () => {
     const signers = await ethers.getSigners();
     wallet = signers[0];

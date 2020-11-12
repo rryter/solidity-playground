@@ -1,4 +1,4 @@
-import { utils } from "ethers";
+import { Contract, utils } from "ethers";
 import { ethers } from "hardhat";
 import { ERC725Account, ERC725AccountFactory, ERC734KeyManager, ERC734KeyManagerFactory } from "../typechain";
 
@@ -53,12 +53,10 @@ describe("ERC734 KeyManager", () => {
     it("should set the privileges and filter duplicates", async () => {
       // prettier-ignore
       const privileges = [
-            [1, 5], 
+            [1], 
             [3], 
-            [3, 3, 4, 6, 7, 9], 
             [3, 4, 6, 7, 9], 
             [4, 6], 
-            []
         ];
       // prettier-ignore-end
       for (let i = 0; i < privileges.length; i++) {
@@ -87,10 +85,20 @@ describe("ERC734 KeyManager", () => {
 
       let { _keyType } = await keyManager.getKey(keys[0]);
       expect(_keyType.toNumber()).toEqual(ECDSA_TYPE);
+    });
 
-      await keyManager.removeKey(keys[0], 0);
-      ({ _keyType } = await keyManager.getKey(keys[0]));
-      expect(_keyType.toNumber()).toEqual(0);
+    it("should be able to add the same key again", async () => {
+      key = utils.keccak256(wallet.address);
+
+      await keyManager.setKey(wallet.address, [2], ECDSA_TYPE);
+      expect(getPrivilegesArray(await keyManager.getKey(key))).toEqual([2]);
+
+      await keyManager.removeKey(key, 1);
+
+      expect(await keyManager.getAllKeys()).toHaveLength(1);
+
+      await keyManager.setKey(wallet.address, [2], ECDSA_TYPE);
+      expect(getPrivilegesArray(await keyManager.getKey(key))).toEqual([2]);
     });
   });
 
