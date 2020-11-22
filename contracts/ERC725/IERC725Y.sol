@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: CC0-1.0
 pragma solidity ^0.6.7;
+pragma experimental ABIEncoderV2;
 
 /**
  * @title ERC725 Y data store
@@ -18,6 +19,11 @@ interface IERC725Y {
      */
     event DataChanged(bytes32 indexed key, bytes value);
 
+    struct Data {
+        bytes32 key;
+        bytes value;
+    }
+
     /**
      * @dev Gets data at a given `key`
      */
@@ -30,4 +36,6 @@ interface IERC725Y {
      * Emits a {DataChanged} event.
      */
     function setData(bytes32 key, bytes calldata value) external;
+
+    function setDataWithArray(Data[] calldata _data) external;
 }

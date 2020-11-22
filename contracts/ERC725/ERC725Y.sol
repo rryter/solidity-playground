@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 pragma solidity ^0.6.7;
+pragma experimental ABIEncoderV2;
 
 // interfaces
 import "./IERC725Y.sol";
@@ -57,5 +58,14 @@ contract ERC725Y is ERC165, Ownable, IERC725Y {
         emit DataChanged(_key, _value);
     }
 
-    /* Modifiers */
+    /**
+     * @notice Sets data at a given `key`
+     * @param _data the key which value to retrieve
+     */
+    function setDataWithArray(Data[] calldata _data) external virtual override onlyOwner {
+        for (uint256 i = 0; i < _data.length; i++) {
+            store[_data[i].key] = _data[i].value;
+            emit DataChanged(_data[i].key, _data[i].value);
+        }
+    }
 }

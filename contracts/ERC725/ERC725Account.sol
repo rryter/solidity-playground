@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 pragma solidity ^0.6.7;
+pragma experimental ABIEncoderV2;
 
 // modules
 import "./ERC725.sol";
@@ -31,7 +32,6 @@ contract ERC725Account is ERC725, IERC1271 {
     constructor(address _newOwner) public ERC725(_newOwner) {
         bytes32 key = keccak256("ERC725Type");
         store[key] = abi.encodePacked(keccak256("ERC725Account"));
-        emit DataChanged(key, store[key]);
 
         _registerInterface(_INTERFACE_ID_ERC1271);
     }

@@ -35,4 +35,16 @@ describe("ERC725 Account", () => {
     const result = await account.getData(utils.formatBytes32String("name"));
     expect(utils.parseBytes32String(result)).toEqual("Reto");
   });
+
+  it("should set an array of data", async () => {
+    const tx = await account.setDataWithArray([
+      { key: utils.formatBytes32String("name1"), value: utils.formatBytes32String("Reto 1") },
+      { key: utils.formatBytes32String("name2"), value: utils.formatBytes32String("Reto 2") }
+    ]);
+    await tx.wait();
+    const result1 = await account.getData(utils.formatBytes32String("name1"));
+    const result2 = await account.getData(utils.formatBytes32String("name2"));
+    expect(utils.parseBytes32String(result1)).toEqual("Reto 1");
+    expect(utils.parseBytes32String(result2)).toEqual("Reto 2");
+  });
 });

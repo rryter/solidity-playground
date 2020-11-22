@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: CC0-1.0
 pragma solidity ^0.6.7;
+pragma experimental ABIEncoderV2;
 
 // modules
 import "./ERC725X.sol";

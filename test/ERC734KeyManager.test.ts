@@ -118,6 +118,7 @@ describe("ERC734 KeyManager", () => {
       expect(await ethers.provider.getBalance(account.address)).toEqBN(0);
     });
   });
+  
 });
 
 function getPrivilegesArray(result): number[] {
